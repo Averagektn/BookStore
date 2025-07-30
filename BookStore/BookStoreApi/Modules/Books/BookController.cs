@@ -30,7 +30,7 @@ public class BookController(IBookService bookService) : Controller
 
     [HttpGet]
     [Route("filter/date")]
-    public async Task<IActionResult> GetBooksByPublishDateAsync([FromQuery] DateTime date)
+    public async Task<IActionResult> GetBooksByPublishDateAsync([FromQuery] DateOnly date)
     {
         Result<List<BookResponseTo>> result = await bookService.GetBooksByPublishDateAsync(date);
 

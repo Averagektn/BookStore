@@ -1,4 +1,5 @@
-﻿
+﻿using AutoMapper;
+
 using BookStoreApi.Modules.Books.Dtos.Responses;
 using BookStoreApi.Modules.Books.Repostories.Interfaces;
 using BookStoreApi.Modules.Books.Services.Interfaces;
@@ -7,20 +8,29 @@ using FluentResults;
 
 namespace BookStoreApi.Modules.Books.Services.Implementations;
 
-public class BookService(IBookRepository bookRepository) : IBookService
+public class BookService(IBookRepository bookRepository, IMapper mapper) : IBookService
 {
-    public Task<Result<BookResponseTo>> GetBookByIdAsync(int id)
+    public async Task<Result<BookResponseTo>> GetBookByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        Result<Book> bookResult = await Result.Try(async Task<Book> () => await bookRepository.GetBookByIdAsync(id));
+
+        return Result.FailIf(bookResult.IsFailed, new Error($"Book not found by id {id}"))
+            .Bind<BookResponseTo>(() => mapper.Map<BookResponseTo>(bookResult.Value));
     }
 
-    public Task<Result<List<BookResponseTo>>> GetBooksByPublishDateAsync(DateTime publishDate)
+    public async Task<Result<List<BookResponseTo>>> GetBooksByPublishDateAsync(DateOnly publishDate)
     {
-        throw new NotImplementedException();
+        Result<List<Book>> bookResult = await Result.Try(async Task<List<Book>> () => await bookRepository.GetBooksByPublishDateAsync(publishDate));
+
+        return Result.FailIf(bookResult.IsFailed, new Error($"Book not found by publish date {publishDate}"))
+            .Bind<List<BookResponseTo>>(() => mapper.Map<List<BookResponseTo>>(bookResult.Value));
     }
 
-    public Task<Result<List<BookResponseTo>>> GetBooksByTitleAsync(string title)
+    public async Task<Result<List<BookResponseTo>>> GetBooksByTitleAsync(string title)
     {
-        throw new NotImplementedException();
+        Result<List<Book>> booksResult = await Result.Try(async Task<List<Book>> () => await bookRepository.GetBooksByTitleAsync(title));
+
+        return Result.FailIf(booksResult.IsFailed, new Error($"Books not found by title {title}"))
+            .Bind<List<BookResponseTo>>(() => mapper.Map<List<BookResponseTo>>(booksResult.Value));
     }
 }

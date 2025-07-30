@@ -14,7 +14,7 @@ public class Book
 
     public decimal Price { get; set; }
 
-    public DateTime PublishDate { get; set; }
+    public DateOnly PublishDate { get; set; }
 
     public int StockQuantity { get; set; }
 
