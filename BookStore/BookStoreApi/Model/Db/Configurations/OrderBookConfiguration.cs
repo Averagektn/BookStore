@@ -1,5 +1,4 @@
 ﻿using BookStoreApi.Modules.OrderBooks;
-using BookStoreApi.Modules.Orders;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

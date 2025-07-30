@@ -35,9 +35,9 @@ string? connectionString;
 
 if (File.Exists(passPath) && File.Exists(userPath) && File.Exists(dbNamePath))
 {
-    var dbPass = File.ReadAllText(passPath);
-    var dbUser = File.ReadAllText(userPath);
-    var dbName = File.ReadAllText(dbNamePath);
+    string dbPass = File.ReadAllText(passPath);
+    string dbUser = File.ReadAllText(userPath);
+    string dbName = File.ReadAllText(dbNamePath);
     connectionString = $"server=bookstore-db;database={dbName};user={dbUser};password={dbPass}";
 }
 else
