@@ -1,0 +1,57 @@
+services:
+  bookstoreapi:
+    image: ${DOCKER_REGISTRY-}bookstoreapi
+    build:
+      context: .
+      dockerfile: BookStoreApi/Dockerfile
+    secrets:
+      - bookstore-db-pass
+      - bookstore-db-user
+      - bookstore-db-name
+      - bookstore-db-root-pass
+    depends_on:
+      bookstore-db:
+        condition: service_healthy
+        restart: true
+
+  bookstore-db:
+    image: mysql:9.4.0
+    container_name: mysql_container
+    environment:
+      MYSQL_USER_FILE: /run/secrets/bookstore-db-user
+      MYSQL_PASSWORD_FILE: /run/secrets/bookstore-db-pass
+      MYSQL_DATABASE_FILE: /run/secrets/bookstore-db-name
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/bookstore-db-root-pass
+      MYSQL_ROOT_HOST: "%"
+    secrets:
+      - bookstore-db-pass
+      - bookstore-db-user
+      - bookstore-db-name
+      - bookstore-db-root-pass
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -u $$(cat $$MYSQL_USER_FILE) -p$$(cat $$MYSQL_PASSWORD_FILE) --silent"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+
+secrets:
+  bookstore-db-pass:
+    file: "./secrets/mysql-pass.txt"
+  bookstore-db-user:
+    file: "./secrets/mysql-user.txt"
+  bookstore-db-name:
+    file: "./secrets/mysql-name.txt"
+  bookstore-db-root-pass:
+    file: "./secrets/mysql-root-pass.txt"
