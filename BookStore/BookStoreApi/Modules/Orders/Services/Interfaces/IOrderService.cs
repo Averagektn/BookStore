@@ -1,4 +1,4 @@
-﻿using BookStoreApi.Modules.Orders.Dtos.Requests;
+﻿using BookStoreApi.Modules.OrderBooks.Dtos.Requests;
 using BookStoreApi.Modules.Orders.Dtos.Responses;
 
 using FluentResults;
@@ -9,5 +9,5 @@ public interface IOrderService
 {
     Task<Result<List<OrderResponseTo>>> GetOrdersByDateAsync(DateOnly date);
     Task<Result<OrderResponseTo>> GetOrderByIdAsync(int id);
-    Task<Result<OrderResponseTo>> CreateOrderAsync(OrderRequestTo orderRequest);
+    Task<Result<OrderResponseTo>> CreateOrderAsync(List<OrderBookRequestTo> orderItems);
 }

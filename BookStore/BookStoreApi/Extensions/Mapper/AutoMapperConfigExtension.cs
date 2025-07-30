@@ -9,6 +9,7 @@ public static class AutoMapperConfigExtension
     public static void ApplyAutoMapperConfiguration(this IMapperConfigurationExpression config)
     {
         config.AddProfile<BookMappingProfile>();
+        config.AddProfile<OrderBookMappingProfile>();
         config.AddProfile<OrderMappingProfile>();
     }
 }

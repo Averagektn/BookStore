@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 
-using BookStoreApi.Modules.Orders.Dtos.Requests;
+using BookStoreApi.Modules.OrderBooks;
+using BookStoreApi.Modules.OrderBooks.Dtos.Requests;
 using BookStoreApi.Modules.Orders.Dtos.Responses;
 using BookStoreApi.Modules.Orders.Repostories.Interfaces;
 using BookStoreApi.Modules.Orders.Services.Interfaces;
@@ -11,11 +12,10 @@ namespace BookStoreApi.Modules.Orders.Services.Implementations;
 
 public class OrderService(IOrderRepository orderRepository, IMapper mapper) : IOrderService
 {
-    public async Task<Result<OrderResponseTo>> CreateOrderAsync(OrderRequestTo orderRequest)
+    public async Task<Result<OrderResponseTo>> CreateOrderAsync(List<OrderBookRequestTo> orderItemsRequest)
     {
-        Order order = mapper.Map<Order>(orderRequest);
-
-        Result<Order> createOrderResult = await Result.Try(async Task<Order> () => await orderRepository.CreateOrderAsync(order));
+        List<OrderBook> orderBooks = mapper.Map<List<OrderBook>>(orderItemsRequest);
+        Result<Order> createOrderResult = await Result.Try(async Task<Order> () => await orderRepository.CreateOrderAsync(orderBooks));
 
         return Result.FailIf(createOrderResult.IsFailed, new Error("Failed to create order"))
             .Bind<OrderResponseTo>(() => mapper.Map<OrderResponseTo>(createOrderResult.Value));

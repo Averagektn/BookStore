@@ -1,5 +1,8 @@
-﻿using BookStoreApi.Modules.Orders.Dtos.Requests;
+﻿using BookStoreApi.Modules.OrderBooks.Dtos.Requests;
+using BookStoreApi.Modules.Orders.Dtos.Responses;
 using BookStoreApi.Modules.Orders.Services.Interfaces;
+
+using FluentResults;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +16,7 @@ public class OrderController(IOrderService orderService) : Controller
     [Route("filter/date")]
     public async Task<IActionResult> GetOrdersByDateAsync([FromQuery] DateOnly date)
     {
-        FluentResults.Result<List<Dtos.Responses.OrderResponseTo>> result = await orderService.GetOrdersByDateAsync(date);
+        Result<List<OrderResponseTo>> result = await orderService.GetOrdersByDateAsync(date);
 
         if (result.IsSuccess)
         {
@@ -30,7 +33,7 @@ public class OrderController(IOrderService orderService) : Controller
     [Route("{id:int}")]
     public async Task<IActionResult> GetOrderByIdAsync([FromRoute] int id)
     {
-        FluentResults.Result<Dtos.Responses.OrderResponseTo> result = await orderService.GetOrderByIdAsync(id);
+        Result<OrderResponseTo> result = await orderService.GetOrderByIdAsync(id);
 
         if (result.IsSuccess)
         {
@@ -44,9 +47,9 @@ public class OrderController(IOrderService orderService) : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateOrderAsync([FromBody] OrderRequestTo orderRequest)
+    public async Task<IActionResult> CreateOrderAsync([FromBody] List<OrderBookRequestTo> ordersRequest)
     {
-        FluentResults.Result<Dtos.Responses.OrderResponseTo> result = await orderService.CreateOrderAsync(orderRequest);
+        Result<OrderResponseTo> result = await orderService.CreateOrderAsync(ordersRequest);
 
         if (result.IsSuccess)
         {

@@ -1,3 +1,3 @@
 ﻿namespace BookStoreApi.Modules.Orders.Dtos.Responses;
 
-public record OrderResponseTo();
+public record OrderResponseTo(int Id, DateTime CreatedAt, decimal TotalPrice);
