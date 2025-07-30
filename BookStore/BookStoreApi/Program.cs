@@ -1,4 +1,5 @@
 using BookStoreApi.Extensions.Mapper;
+using BookStoreApi.Middleware;
 using BookStoreApi.Model.Db;
 using BookStoreApi.Modules.Books;
 using BookStoreApi.Modules.Books.Repostories.Implementations;
@@ -54,6 +55,8 @@ _ = builder.Services.AddDbContext<BookStoreContext>(options =>
 });
 
 WebApplication app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
