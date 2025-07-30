@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-using BookStoreApi.Modules.OrderBooks;
+﻿using BookStoreApi.Modules.OrderBooks;
 
 namespace BookStoreApi.Modules.Books;
 
