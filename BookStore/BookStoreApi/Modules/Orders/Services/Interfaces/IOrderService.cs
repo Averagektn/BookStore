@@ -7,7 +7,7 @@ namespace BookStoreApi.Modules.Orders.Services.Interfaces;
 
 public interface IOrderService
 {
-    Task<Result<List<OrderResponseTo>>> GetOrdersByDateAsync(DateTime date);
+    Task<Result<List<OrderResponseTo>>> GetOrdersByDateAsync(DateOnly date);
     Task<Result<OrderResponseTo>> GetOrderByIdAsync(int id);
     Task<Result<OrderResponseTo>> CreateOrderAsync(OrderRequestTo orderRequest);
 }

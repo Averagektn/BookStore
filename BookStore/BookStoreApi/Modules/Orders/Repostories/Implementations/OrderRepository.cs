@@ -23,9 +23,9 @@ public class OrderRepository(BookStoreContext context) : IOrderRepository
         return order ?? throw new OrderNotFoundException();
     }
 
-    public async Task<List<Order>> GetOrdersByDateAsync(DateTime date)
+    public async Task<List<Order>> GetOrdersByDateAsync(DateOnly date)
     {
-        List<Order> orders = await context.Orders.Where(order => order.CreatedAt.Date == date.Date).ToListAsync();
+        List<Order> orders = await context.Orders.Where(order => DateOnly.FromDateTime(order.CreatedAt) == date).ToListAsync();
 
         return orders;
     }

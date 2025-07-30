@@ -11,7 +11,7 @@ public class OrderController(IOrderService orderService) : Controller
 {
     [HttpGet]
     [Route("filter/date")]
-    public async Task<IActionResult> GetOrdersByDateAsync([FromQuery] DateTime date)
+    public async Task<IActionResult> GetOrdersByDateAsync([FromQuery] DateOnly date)
     {
         FluentResults.Result<List<Dtos.Responses.OrderResponseTo>> result = await orderService.GetOrdersByDateAsync(date);
 

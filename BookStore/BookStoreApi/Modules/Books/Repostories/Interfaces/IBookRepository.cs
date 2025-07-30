@@ -1,8 +1,4 @@
-﻿using BookStoreApi.Modules.Books.Dtos.Responses;
-
-using FluentResults;
-
-namespace BookStoreApi.Modules.Books.Repostories.Interfaces;
+﻿namespace BookStoreApi.Modules.Books.Repostories.Interfaces;
 
 public interface IBookRepository
 {

@@ -29,7 +29,7 @@ public class OrderService(IOrderRepository orderRepository, IMapper mapper) : IO
             .Bind<OrderResponseTo>(() => mapper.Map<OrderResponseTo>(getOrderById.Value));
     }
 
-    public async Task<Result<List<OrderResponseTo>>> GetOrdersByDateAsync(DateTime date)
+    public async Task<Result<List<OrderResponseTo>>> GetOrdersByDateAsync(DateOnly date)
     {
         Result<List<Order>> getOrdersByDate = await Result
             .Try(async Task<List<Order>> () => await orderRepository.GetOrdersByDateAsync(date));
